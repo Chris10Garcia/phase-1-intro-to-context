@@ -22,37 +22,35 @@ function createTimeInEvent(employObj, dateStamp){
     // dateStamp = YYYY-MM-DD HHMM string
     //             0123456789 1234
     //                      10
+
     const timeObj = {
         type: "TimeIn",
         hour: parseInt(dateStamp.slice(-4),10), // need to count backwards to deal with single or double digit hours and explictly convert to Int
         date: dateStamp.slice(0,10) // (YYYY-MM-DD)
     }
-    employObj.timeInEvents.push(timeObj)
-    return employObj
+
+    return employObj.timeInEvents.push(timeObj) //time[action]Events is an array, hence the use of push
 }
 
 function createTimeOutEvent(employObj, dateStamp){
-    // dateStamp = YYYY-MM-DD HHMM string
-    //             0123456789 1234
-    //                      10
-
+    // similar as timeIn, but for timeOut
     const timeObj = {
         type: "TimeOut",
-        hour: parseInt(dateStamp.slice(-4),10), // need to count backwards to deal with single or double digit hours and explictly convert to Int
+        hour: parseInt(dateStamp.slice(-4),10),
         date: dateStamp.slice(0,10) // (YYYY-MM-DD)
     }
-    employObj.timeOutEvents.push(timeObj)
-    return employObj
+    
+    return employObj.timeOutEvents.push(timeObj)
 }
 
 
 function hoursWorkedOnDate(employObj, dateStamp){
     // from test, it appears i need to search the timeObj's date. if it's a hit, capture hours
 
-    const timeInValue = employObj.timeInEvents.find(element => element.date === dateStamp).hour
+    const timeInValue = employObj.timeInEvents.find(element => element.date === dateStamp).hour // chaining .hour works here because single element returns
     const timeOutValue = employObj.timeOutEvents.find(element => element.date === dateStamp).hour
 
-    return (timeOutValue - timeInValue)/100
+    return (timeOutValue - timeInValue)/100   //hours is in 100 units. 
 
 }
 
@@ -68,8 +66,8 @@ function allWagesFor(employObj){
     const timeInandOutArray = []
 
     for (let i = 0; i < timeInArray.length; i++){
-        timeInandOutArray.push([timeOutArray[i].hour,timeInArray[i].hour])
-    }
+        timeInandOutArray.push([timeOutArray[i].hour,timeInArray[i].hour])    //i could have probably done the hoursOut - hoursIn here
+    }                                                                         // but doing it in next code block for easier read and following
 
     const totalHours = timeInandOutArray.reduce( (accumulator, pairElement) => {
         return (pairElement[0] - pairElement[1]) + accumulator
@@ -81,15 +79,7 @@ function allWagesFor(employObj){
 
 function calculatePayroll(arrayOfObj){
 
-    const totalHours = arrayOfObj.map(employObj => allWagesFor(employObj))
-
-    return totalHours.reduce((accum, element) => accum + element)
+    const totalHours = arrayOfObj.map(employObj => allWagesFor(employObj)) // why does the lab instruct us to use wagesEarnedOnDate? using allWages is better
+    return totalHours.reduce((accum, element) => accum + element)          // unless this impacts the optional part?
 }
 
-// let test1 = "2023-MM-DD 800"
-// let test2 = "2023-MM-DD 2300"
-
-// console.log(parseInt(test1.slice(-4), 10))
-// console.log(test2.slice(-4).toString())
-
-// 
