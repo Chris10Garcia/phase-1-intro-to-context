@@ -29,7 +29,9 @@ function createTimeInEvent(employObj, dateStamp){
         date: dateStamp.slice(0,10) // (YYYY-MM-DD)
     }
 
-    return employObj.timeInEvents.push(timeObj) //time[action]Events is an array, hence the use of push
+    employObj.timeInEvents.push(timeObj) //time[action]Events is an array, hence the use of push
+
+    return employObj
 }
 
 function createTimeOutEvent(employObj, dateStamp){
@@ -40,7 +42,9 @@ function createTimeOutEvent(employObj, dateStamp){
         date: dateStamp.slice(0,10) // (YYYY-MM-DD)
     }
     
-    return employObj.timeOutEvents.push(timeObj)
+    employObj.timeOutEvents.push(timeObj)
+
+    return employObj
 }
 
 
