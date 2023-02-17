@@ -76,9 +76,15 @@ function allWagesFor(employObj){
     }, 0)
 
     return totalHours * employObj.payPerHour / 100
-    
+
 }
 
+function calculatePayroll(arrayOfObj){
+
+    const totalHours = arrayOfObj.map(employObj => allWagesFor(employObj))
+
+    return totalHours.reduce((accum, element) => accum + element)
+}
 
 // let test1 = "2023-MM-DD 800"
 // let test2 = "2023-MM-DD 2300"
